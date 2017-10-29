@@ -35,25 +35,6 @@ $(document).ready(function(){
             var dots = '...';
             var trimTitle1 = '';
             var trimTitle2 = '';
-            
-            var cardHTML = "<div class='col s12 m6 l6'>"+
-            "<div class='card small sticky-action'>"+
-                "<div class='card-image waves-effect waves-block waves-light'>"+
-                    "<img class='activator' src='http://via.placeholder.com/350x180'>"+
-                "</div>"+
-                "<div class='card-content'>"+
-                    "<span class='card-title activator grey-text text-darken-4'>Card Title<i class='material-icons right'>more_vert</i></span>"+
-                    "<p><a href='#'>This is a link</a></p>"+
-                "</div>"+
-                "<div class='card-reveal'>"+
-                    "<span class='card-title grey-text text-darken-4'>Card Title<i class='material-icons right'>close</i></span>"+
-                    "<p>Here is some more information about this product that is only revealed once clicked on.</p>"+
-                "</div>"+
-                "<div class='card-action'>"+
-                "</div>"+
-            "</div>"+
-        "</div>";
-            console.log(cardHTML);
             $.each(result, function(index, value){
                 stars = '';
                 
@@ -104,7 +85,6 @@ $(document).ready(function(){
         }
 
     });
-    console.log(titleData);
     titleData = {"":null};
      //Converting nav to sidenabv in mobile view
      $(".button-collapse").sideNav();
@@ -117,5 +97,7 @@ $(document).ready(function(){
             },
             minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
     });
+
+    
 
 });

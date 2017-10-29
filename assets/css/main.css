@@ -65,6 +65,9 @@ input:not([type]):focus:not([readonly])+label, input[type=text]:not(.browser-def
 i.right{
     margin-left: 0px!important;
 }
+body .container{
+    margin-top: 10px!important;
+}
 
 /* changing default end */
 
