@@ -8,11 +8,9 @@ function changeColor(selector, colors, time) {
             backgroundColor: colors[curCol]
             }, 1000);
             curCol++;
-            console.log('hello'+curCol);
         }, time);
 }
 $(window).on('load',function () {
-    console.log('ba');
     changeColor("body", ["#ee6e73", "rgba(0,128,0,0.6)", "rgba(128,0,128, 0.6)", "rgba(0,0,128,0.6)"], 3000);
 });
 
@@ -58,13 +56,13 @@ $(document).ready(function(){
                     if(value.score%1 != 0){
                         stars += '<i class="material-icons" style="font-size:20px;color:orange;">star_half</i>';
                     }
-                    $('.card-container').append("<div class='col s12 m6 l6'>"+
+                    $('.card-container').append("<div class='col s12 m6 l6 card-column'>"+
                         "<div class='card small sticky-action'>"+
                             "<div class='card-image waves-effect waves-block waves-light'>"+
                                 "<img class='activator' src='http://via.placeholder.com/350x180'>"+
                             "</div>"+
                             "<div class='card-content'>"+
-                                "<span class='card-title activator grey-text text-darken-4'>"+trimTitle1+"<i class='material-icons right'>more_vert</i></span>"+
+                                "<span class='card-title activator grey-text text-darken-4', data-title='"+value.title.replace("'", '')+"'>"+trimTitle1+"<i class='material-icons right'>more_vert</i></span>"+
                             "</div>"+
                             "<div class='card-reveal'>"+
                                 "<span class='card-title grey-text text-darken-4'>"+trimTitle2+"<i class='material-icons right'>close</i></span>"+
@@ -93,11 +91,34 @@ $(document).ready(function(){
             data: titleData,
             limit: 5, // The max amount of results that can be shown at once. Default: Infinity.
             onAutocomplete: function(val) {
+            $('.card-column').css("display","block");                        
             // Callback function when value is autcompleted.
+            $('.card-content span.card-title').each(function(){
+                if(val.replace("'", '') != $(this).attr('data-title')){
+                    $(this).parents('.card-column').css("display","none");
+                }
+                
+            });
             },
             minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
     });
 
-    
+    $('.search').on('blur', function(){
+        if($('.search').val() == ""){
+            $('.card-column').css("display","block");
+        }
+    });
+    $('.search').on('keyup', function(){
+        var val = $(this).val().replace("'", '');
+        $('.card-column').css("display","block");                
+        $('.card-content span.card-title').each(function(){
+            if($(this).attr('data-title').toLowerCase().indexOf(val.toLowerCase()) == -1){
+                $(this).parents('.card-column').css("display","none");
+            }else{
+                $(this).parents('.card-column').css("display","block");
+            }
+            
+        });
+    });
 
 });
