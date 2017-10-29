@@ -65,8 +65,65 @@ input:not([type]):focus:not([readonly])+label, input[type=text]:not(.browser-def
 i.right{
     margin-left: 0px!important;
 }
-body .container{
+body .first.container{
     margin-top: 10px!important;
+}
+
+.sortColumn [type="checkbox"]+label:before{
+    border: 2px solid #fff!important;    
+}
+label{
+    color: #fff!important;
+}
+.sortColumn input[type="checkbox"]:checked + label:before {
+    border-left: none!important;
+    border-top: none!important;
+    border-right: 2px solid #fff!important; 
+    border-bottom: 2px solid #fff!important;
+}
+
+.platformFilter .chips{
+    border-bottom: 1px solid #fff!important;
+} 
+
+.platformFilter input{
+    border-bottom: none!important;
+}
+.platformFilter .chips input:not([type]):focus:not([readonly]){
+    border:none!important;
+}  
+.platformFilter .chips.focus{
+    box-shadow: none!important;
+    border-width: 2px!important;
+}
+@media only screen and (max-width: 600px) {
+    .platformFilter .chips input:focus{
+        box-shadow: none!important;
+        border-width: 2px!important;
+    }
+}
+.platformFilter .chips input::-webkit-input-placeholder{
+    color: #fff!important;
+}
+.platformFilter .chips input:-moz-placeholder { /* Firefox 18- */
+    color: #fff!important;  
+}
+     
+.platformFilter .chips input::-moz-placeholder {  /* Firefox 19+ */
+    color: #fff!important;  
+}
+    
+.platformFilter .chips input:-ms-input-placeholder {  
+    color: #fff!important;  
+}
+
+.platformFilter .chips .chip.selected{
+    background-color: #e4e4e4!important;
+    color: rgba(0,0,0,0.6)!important;
+}
+.platformFilter .chips .chip{
+    background-color: #fff!important;
+    color: #000!important;
 }
 
 /* changing default end */
@@ -89,4 +146,22 @@ main {
     flex: 1 0 auto;
   }
 
-
+@media only screen and (min-width: 600px) {
+    .sortColumn{
+        margin-top: 38px;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .sortColumn{
+        margin-top: -10px;
+        text-align: center;
+        margin-bottom: 5px; 
+    }
+    .platformFilter{
+        margin-top: 18px;
+    }
+    .platformFilter .chips input:focus{
+        box-shadow: none!important;
+        border-width: 2px!important;
+    }
+}
