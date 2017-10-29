@@ -4,8 +4,8 @@
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">    
     <link type="text/css" rel="stylesheet" href="assets/vendors/materialize/css/materialize.min.css"  media="screen,projection"/>
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">         -->
     <link type="text/css" rel="stylesheet" href="assets/css/main.css"/>    
 
     <!--Let browser know website is optimized for mobile-->
@@ -13,38 +13,93 @@
   </head>
 
   <body>
+    <main>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#!" class="brand-logo">GamesArena</a>
+                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Adventure</a></li>
+                <li><a href="#">Survival</a></li>
+                <li><a href="#">First Person</a></li>
+                </ul>
+                <ul class="side-nav" id="mobile-demo">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Adventure</a></li>
+                <li><a href="#">Survival</a></li>
+                <li><a href="#">First Person</a></li>
+                </ul>
+            </div>
+        </nav>  
+        <div class="container">
+            <div class="row">
+                <div class="col m12 l12">
+                    <div class="input-field col s12 m6 l6">
+                        <i class="material-icons prefix">search</i>
+                        <input type="text" id="autocomplete-input" class="autocomplete">
+                        <label for="autocomplete-input">Search</label>
+                    </div>
+                    <div class="input-field col s12 m6 l6">
+                        <i class="material-icons prefix">filter_list</i>                        
+                        <select multiple>
+                            <option value="" disabled selected>Filter</option>
+                            <option value="1">Option 1</option>
+                            <option value="2">Option 2</option>
+                            <option value="3">Option 3</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m10 l10 offset-m1 offset-l1 card-container">
 
-    <!-- <div class="navbar-fixed"> -->
-    <nav>
-        <div class="nav-wrapper">
-            <a href="#!" class="brand-logo">GamesArena</a>
-            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-            <ul class="right hide-on-med-and-down">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Adventure</a></li>
-            <li><a href="#">Survival</a></li>
-            <li><a href="#">First Person</a></li>
-            </ul>
-            <ul class="side-nav" id="mobile-demo">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Adventure</a></li>
-            <li><a href="#">Survival</a></li>
-            <li><a href="#">First Person</a></li>
-            </ul>
+                    <!-- next card -->
+                    <!-- <div class="col s12 m6 l6">
+                        <div class="card small sticky-action">
+                            <div class="card-image waves-effect waves-block waves-light">
+                                <img class="activator" src="http://via.placeholder.com/350x180">
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+                                <p><a href="#">This is a link</a></p>
+                            </div>
+                            <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+                                <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                            </div>
+                            <div class="card-action">
+                                <i class="material-icons" style="font-size:20px;color:orange;">star</i>
+                                <i class="material-icons" style="font-size:20px;color:orange;">star</i>
+                                <i class="material-icons" style="font-size:20px;color:orange;">star</i>
+                                <i class="material-icons" style="font-size:20px;color:orange;">star</i>
+                                <i class="material-icons" style="font-size:20px;color:orange;">star</i>
+                                <i class="material-icons" style="font-size:20px;color:orange;">star</i>
+                                <i class="material-icons" style="font-size:20px;color:orange;">star</i>
+                                <i class="material-icons" style="font-size:20px;color:orange;">star</i>
+                                <i class="material-icons" style="font-size:20px;color:orange;">star</i>
+                                <i class="material-icons" style="font-size:20px;color:orange;">star</i>  
+                            </div>
+                        </div>
+                    </div> -->
+
+                </div>
+            </div>
+        </div>       
+    </main>
+    <footer class="page-footer">
+        <div class="footer-copyright">
+            <div class="container">
+                &copy; 2017 Copyright Gamesarena
+                <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
         </div>
-    </nav>
-    <!-- </div> -->
-
+    </footer>
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="assets/vendors/materialize/js/materialize.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>  
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>   -->
     <script type="text/javascript" src="assets/js/main.js"></script>  
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $(".button-collapse").sideNav();
-        });
-    </script>
 </body>
 </html>
