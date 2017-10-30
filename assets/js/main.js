@@ -137,9 +137,7 @@ $(document).ready(function(){
         $.each(currCards, function(index, value){
             if(value.title.toLowerCase().indexOf(val.toLowerCase()) != -1){
                 cpyCards.push(value);                
-            }
-            console.log('reach 1');
-            
+            }            
         });
         printCards(cpyCards);
         // localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                                
@@ -148,14 +146,13 @@ $(document).ready(function(){
     //Filter by platforms
     function platformFilter(tags){
         console.log('here platform');
-        var currCards = JSON.parse(localStorage.getItem('cardsJson')); 
+        // var currCards = JSON.parse(localStorage.getItem('cardsJson')); 
         var cpyCards = [];
         $('.card-container').html('');
         $.each(tags, function(index, value){
-            $.each(currCards, function(cindex, cvalue){
-                if(cvalue.platform.toLowerCase().indexOf(value.tag.toLowerCase()) != -1){ 
+            $.each(orginalGamesData, function(cindex, cvalue){
+                if((cvalue.platform.toLowerCase().indexOf(value.tag.toLowerCase())) != -1 && (cvalue.title.toLowerCase().indexOf($('.search').val().toLowerCase()) != -1)){ 
                     cpyCards.push(cvalue);
-                    console.log('checking');
                 }
             });
         });
