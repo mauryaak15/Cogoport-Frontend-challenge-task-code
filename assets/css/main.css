@@ -153,8 +153,7 @@ main {
 }
 @media only screen and (max-width: 600px) {
     .sortColumn{
-        margin-top: -10px;
-        text-align: center;
+        margin-top: 7px;
         margin-bottom: 5px; 
     }
     .platformFilter{

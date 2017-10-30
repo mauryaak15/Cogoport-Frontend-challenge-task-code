@@ -19,7 +19,25 @@ $(document).ready(function(){
     var gamesDataCopy = [];
     var orginalGamesData =  [];
     var currentCardsJsonData = [];
+    var titleData = {};
+    var platformData = {};
+    var tags = {};
+    var originalPlatformData = {};
+    var originalTitleData = {};
+    var flag = true;
 
+    //Merge Two arrays and remove duplicate
+    Array.prototype.unique = function() {
+        var a = this.concat();
+        for(var i=0; i<a.length; ++i) {
+            for(var j=i+1; j<a.length; ++j) {
+                if(a[i] === a[j])
+                    a.splice(j--, 1);
+            }
+        }
+    
+        return a;
+    };
     //Update Search Data
     function updateSearchData(key){
         var currCards = JSON.parse(localStorage.getItem('cardsJson'));        
@@ -42,11 +60,7 @@ $(document).ready(function(){
                 score = ele.attr('data-score');
                 editor = ele.attr('data-editor');
                 genre = ele.attr('data-genre');
-                // obj['title'] = title;
-                // obj['platform'] = platform;
-                // obj['genre'] = genre;
-                // obj['editors_choice'] = editor;
-                // obj['score'] = score;
+                
                 arr.push({
                     'title': title,
                     'platform': platform,
@@ -108,19 +122,14 @@ $(document).ready(function(){
                 "</div>"+
             "</div>");
         });
+        originalPlatformData = jQuery.extend({}, platformData);
+        originalTitleData = jQuery.extend({}, titleData);
     }
 
     //Search partial strings in title
     function searchGames(val){
-        var tags = $('.platformFilter .chips-autocomplete').material_chip('data');
         var currCards = '';       
-        if(tags.length == 0){
-            currCards = localStorage.setItem('cardsJson', JSON.stringify(orginalGamesData)); 
-        }else{
-            // $.each(tags, function(){
-
-            // });
-        }        
+      
         currCards = JSON.parse(localStorage.getItem('cardsJson')); 
         var cpyCards = [];        
         $('.card-container').html('');
@@ -131,42 +140,25 @@ $(document).ready(function(){
             }
             
         });
-        console.log('oops');
         printCards(cpyCards);
-        localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                                
+        // localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                                
     }
 
     //Filter by platforms
     function platformFilter(tags){
         console.log('here platform');
-        // var currCards = JSON.parse(localStorage.getItem('cardsJson')); 
+        var currCards = JSON.parse(localStorage.getItem('cardsJson')); 
         var cpyCards = [];
-        var val = $('.search').val().replace("'", '');        
-        $('.card-container').html('');                
-        if(tags.length == 0 && val != ""){
-            printCards(orginalGamesData); 
-            localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));             
-            searchGames(val);          
-        }else if($('.search').val() == "" && tags.length == 0){ 
-            printCards(gamesDataCopy); 
-            localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                         
-        }else{
-            $.each(tags, function(index, value){
-                $.each(orginalGamesData, function(cindex, cvalue){
-                    if(cvalue.platform.toLowerCase().indexOf(value.tag.toLowerCase()) != -1){ 
-                        cpyCards.push(cvalue);
-                    }
-                });
+        $('.card-container').html('');
+        $.each(tags, function(index, value){
+            $.each(currCards, function(cindex, cvalue){
+                if(cvalue.platform.toLowerCase().indexOf(value.tag.toLowerCase()) != -1){ 
+                    cpyCards.push(cvalue);
+                    console.log('checking');
+                }
             });
-            printCards(cpyCards);
-            console.log(cpyCards);
-            localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));
-            if(val !=""){
-                searchGames(val);   
-                localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                
-            } 
-            
-        }
+        });
+        printCards(cpyCards);
                                        
     }
 
@@ -195,10 +187,6 @@ $(document).ready(function(){
           );
         };
       }
-
-    var titleData = {};
-    var platformData = {};
-    var tags = {};
     
     //Ajax request to load game data
     $.ajax({
@@ -219,7 +207,7 @@ $(document).ready(function(){
         complete    : function(){
             //Sort functionality
             localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));
-            localStorage.setItem('tags', JSON.stringify([]));            
+            localStorage.setItem('tags', JSON.stringify({}));            
             $('#sortByScore').on('change', function(){
                     var storedObj = localStorage.getItem('cardsJson');
                     var order = 'asc';
@@ -272,11 +260,10 @@ $(document).ready(function(){
                     }
 
                 });
+                localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                                        
                 platformData = updateSearchData('platform');
                 platformChipsAutoComplete(platformData);
                 addingPrevChips();
-                localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                        
-
             },
             minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
         });    
@@ -284,47 +271,56 @@ $(document).ready(function(){
     searchAutoComplete(titleData);
     
     $('.search').on('blur', function(){
-        tags = $('.platformFilter .chips-autocomplete').material_chip('data');
+        tags = JSON.parse(localStorage.getItem('tags'));
         if($('.search').val() == "" && tags.length > 0){
             $('.card-container').html('')
-            printCards(gamesDataCopy);
+            printCards(orginalGamesData);
             localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                                                                
             platformFilter(tags);
-            localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                                                                            
+            localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));
+            platformChipsAutoComplete(originalPlatformData);
+            addingPrevChips();
+            titleData = updateSearchData('title');             
+            searchAutoComplete(titleData);                                                                                    
 
         }else if($('.search').val() == "" && tags.length == 0){
             $('.card-container').html('')
-            printCards(gamesDataCopy); 
+            printCards(orginalGamesData); 
+            localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                                                                            
+            platformChipsAutoComplete(originalPlatformData);
+            searchAutoComplete(originalTitleData);
+
         }else if($('.search').val() != "" && tags.length == 0){
             $('.card-container').html('')
-            printCards(gamesDataCopy); 
+            printCards(orginalGamesData); 
+            localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                                                                                                    
             searchGames($('.search').val());
-            localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                                                                                        
+            localStorage.setItem('cardsJson', JSON.stringify(cardsToJson())); 
+            platformData = updateSearchData('platform'); 
+            platformChipsAutoComplete(platformData);
         }else if($('.search').val() != "" && tags.length > 0){
             searchGames($('.search').val()); 
-            localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                                                                
-        }
-        platformData = updateSearchData('platform');
-        platformChipsAutoComplete(platformData);
-        addingPrevChips();        
+            localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));   
+            platformData = updateSearchData('platform');
+            platformChipsAutoComplete(platformData);
+            addingPrevChips(); 
+            titleData = updateSearchData('title');             
+            searchAutoComplete(titleData);                                                                    
+        }        
     });
-    // $('.search').on('keyup', function(){
-        
-    //     var val = $(this).val().replace("'", '');
-    //     searchGames(val);
-    //     localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                                        
-    //     platformData = updateSearchData('platform');
-    //     platformChipsAutoComplete(platformData);
-    //     addingPrevChips();
-        
-    // });
 
     function addingPrevChips(){
+        console.log('accha');
         var tags = JSON.parse(localStorage.getItem('tags'));
         var chip = '';
         $.each(tags, function(index, value){
-            chip = '<div class="chip">'+value.tag+'<i class="material-icons close">close</i></div>';            
-            $('.platformFilter .chips.chips-autocomplete').prepend(chip);            
+            // chip = '<div class="chip">'+value.tag+'<i class="material-icons close">close</i></div>';            
+            // $('.platformFilter .chips.chips-autocomplete').prepend(chip);
+            $(".chips").find('input').val(value.tag);   
+            $('.chips').val(function(i, val) {
+                return val + (!val ? '' : '|') + value.tag;
+            });    
+            $(".chips").find('input').trigger({ type : 'keydown', which : 13 });            
         });
     }
 
@@ -345,22 +341,66 @@ $(document).ready(function(){
 
     $('.platformFilter .chips').on('chip.add', function(e, chip){
     // you have the added chip here
-    tags = $('.platformFilter .chips-autocomplete').material_chip('data');
+    tags = $('.platformFilter .chips-autocomplete').material_chip('data');       
+    // tags2 = JSON.parse(localStorage.getItem('tags'));
+    // tags = Object.assign(tags, tags2);
+    searchValue = $('.search').val();
     localStorage.setItem('tags', JSON.stringify(tags));
-    platformFilter(tags);
-    localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));            
-    titleData = updateSearchData('title');
-    searchAutoComplete(titleData);
+    if(searchValue != ""){       
+        platformFilter(tags); 
+        localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));    
+        titleData = updateSearchData('title');
+        searchAutoComplete(titleData);
+        $('.search').val(searchValue);         
+    }else{
+        $('.card-container').html('')
+        printCards(orginalGamesData);
+        localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));     
+        platformFilter(tags);
+        localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                 
+        titleData = updateSearchData('title');
+        searchAutoComplete(titleData); 
+    }    
+                  
     });
     
-    $('.platformFilter .chips').on('chip.delete', function(e, chip){
-    // you have the deleted chip here
-    var tags = $('.platformFilter .chips-autocomplete').material_chip('data'); 
-    localStorage.setItem('tags', JSON.stringify(tags));    
-    platformFilter(tags);  
-    localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                
-    titleData = updateSearchData('title');  
-    searchAutoComplete(titleData);
+        $('.platformFilter .chips').on('chip.delete', function(e, chip){
+        tags = $('.platformFilter .chips-autocomplete').material_chip('data');       
+        // tags2 = JSON.parse(localStorage.getItem('tags'));
+        // tags = Object.assign(tags, tags2);
+        localStorage.setItem('tags', JSON.stringify(tags));        
+        searchValue = $('.search').val();
+        if(searchValue == "" && tags.length == 0){
+            $('.card-container').html('')
+            printCards(orginalGamesData);
+            localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                                                                
+            platformChipsAutoComplete(originalPlatformData);
+            searchAutoComplete(originalTitleData);
+        }else if(searchValue == "" && tags.length > 0){
+            $('.card-container').html('')
+            printCards(orginalGamesData);
+            localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));     
+            platformFilter(tags);
+            localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                 
+            titleData = updateSearchData('title');
+            searchAutoComplete(titleData);
+        }else if(searchValue != "" && tags.length == 0){
+            $('.card-container').html('')
+            printCards(orginalGamesData);
+            localStorage.setItem('cardsJson', JSON.stringify(cardsToJson())); 
+            searchGames(searchValue);
+            localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));             
+            titleData = updateSearchData('title');
+            searchAutoComplete(titleData);
+            $('.search').val(searchValue);                    
+        }else if(searchValue != "" && tags.length != 0){
+            platformFilter(tags); 
+            localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));    
+            titleData = updateSearchData('title');
+            searchAutoComplete(titleData);
+            $('.search').val(searchValue);         
+        }
+
     });
 
 });
