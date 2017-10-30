@@ -129,7 +129,7 @@ $(document).ready(function(){
     //Search partial strings in title
     function searchGames(val){
         var currCards = '';       
-      
+        console.log('reach 2');        
         currCards = JSON.parse(localStorage.getItem('cardsJson')); 
         var cpyCards = [];        
         $('.card-container').html('');
@@ -138,6 +138,7 @@ $(document).ready(function(){
             if(value.title.toLowerCase().indexOf(val.toLowerCase()) != -1){
                 cpyCards.push(value);                
             }
+            console.log('reach 1');
             
         });
         printCards(cpyCards);
@@ -271,8 +272,9 @@ $(document).ready(function(){
     searchAutoComplete(titleData);
     
     $('.search').on('blur', function(){
+        console.log('thr?');
         tags = JSON.parse(localStorage.getItem('tags'));
-        if($('.search').val() == "" && tags.length > 0){
+        if($('.search').val() == "" && Object.keys(tags).length > 0){
             $('.card-container').html('')
             printCards(orginalGamesData);
             localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                                                                
@@ -283,14 +285,15 @@ $(document).ready(function(){
             titleData = updateSearchData('title');             
             searchAutoComplete(titleData);                                                                                    
 
-        }else if($('.search').val() == "" && tags.length == 0){
+        }else if($('.search').val() == "" && Object.keys(tags).length == 0){
             $('.card-container').html('')
             printCards(orginalGamesData); 
             localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                                                                            
             platformChipsAutoComplete(originalPlatformData);
             searchAutoComplete(originalTitleData);
 
-        }else if($('.search').val() != "" && tags.length == 0){
+        }else if($('.search').val() != "" && Object.keys(tags).length == 0){
+            console.log('sad');
             $('.card-container').html('')
             printCards(orginalGamesData); 
             localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                                                                                                    
@@ -298,7 +301,7 @@ $(document).ready(function(){
             localStorage.setItem('cardsJson', JSON.stringify(cardsToJson())); 
             platformData = updateSearchData('platform'); 
             platformChipsAutoComplete(platformData);
-        }else if($('.search').val() != "" && tags.length > 0){
+        }else if($('.search').val() != "" && Object.keys(tags).length > 0){
             searchGames($('.search').val()); 
             localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));   
             platformData = updateSearchData('platform');
@@ -370,13 +373,13 @@ $(document).ready(function(){
         // tags = Object.assign(tags, tags2);
         localStorage.setItem('tags', JSON.stringify(tags));        
         searchValue = $('.search').val();
-        if(searchValue == "" && tags.length == 0){
+        if(searchValue == "" && Object.keys(tags).length == 0){
             $('.card-container').html('')
             printCards(orginalGamesData);
             localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                                                                
             platformChipsAutoComplete(originalPlatformData);
             searchAutoComplete(originalTitleData);
-        }else if(searchValue == "" && tags.length > 0){
+        }else if(searchValue == "" && Object.keys(tags).length > 0){
             $('.card-container').html('')
             printCards(orginalGamesData);
             localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));     
@@ -384,7 +387,7 @@ $(document).ready(function(){
             localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                 
             titleData = updateSearchData('title');
             searchAutoComplete(titleData);
-        }else if(searchValue != "" && tags.length == 0){
+        }else if(searchValue != "" && Object.keys(tags).length == 0){
             $('.card-container').html('')
             printCards(orginalGamesData);
             localStorage.setItem('cardsJson', JSON.stringify(cardsToJson())); 
@@ -393,7 +396,7 @@ $(document).ready(function(){
             titleData = updateSearchData('title');
             searchAutoComplete(titleData);
             $('.search').val(searchValue);                    
-        }else if(searchValue != "" && tags.length != 0){
+        }else if(searchValue != "" && Object.keys(tags).length != 0){
             platformFilter(tags); 
             localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));    
             titleData = updateSearchData('title');
