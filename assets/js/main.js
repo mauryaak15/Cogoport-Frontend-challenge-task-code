@@ -126,6 +126,39 @@ $(document).ready(function(){
         originalTitleData = jQuery.extend({}, titleData);
     }
 
+    //Sort by score
+    function sortByScore(){
+        var storedObj = localStorage.getItem('cardsJson');
+        var order = 'asc';
+        $('.card-container').html('');
+        if($('#ascDesc').is(":checked")){
+            order = 'desc';
+        }
+        if($('#sortByScore').is(":checked")){
+            printCards(JSON.parse(storedObj).sort(sortGames('score', order)));
+
+        }else{
+            printCards(JSON.parse(storedObj));
+
+        }
+    }
+
+    //sort asc desc in score
+    function ascDesc(){
+        var storedObj = localStorage.getItem('cardsJson');
+        var order = 'asc';
+        $('.card-container').html('');                
+        if($('#ascDesc').is(":checked")){
+            order = 'desc';
+        }
+        if($('#sortByScore').is(":checked")){
+            printCards(JSON.parse(storedObj).sort(sortGames('score', order)));
+
+        }else{
+            printCards(JSON.parse(storedObj));
+        }
+    }
+
     //Search partial strings in title
     function searchGames(val){
         var currCards = '';       
@@ -207,34 +240,11 @@ $(document).ready(function(){
             localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));
             localStorage.setItem('tags', JSON.stringify({}));            
             $('#sortByScore').on('change', function(){
-                    var storedObj = localStorage.getItem('cardsJson');
-                    var order = 'asc';
-                    $('.card-container').html('');
-                    if($('#ascDesc').is(":checked")){
-                        order = 'desc';
-                    }
-                    if($(this).is(":checked")){
-                        printCards(JSON.parse(storedObj).sort(sortGames('score', order)));
-
-                    }else{
-                        printCards(JSON.parse(storedObj));
-         
-                    }
+                sortByScore();  
             });
 
             $('#ascDesc').on('change', function(){
-                var storedObj = localStorage.getItem('cardsJson');
-                var order = 'asc';
-                $('.card-container').html('');                
-                if($(this).is(":checked")){
-                    order = 'desc';
-                }
-                if($('#sortByScore').is(":checked")){
-                    printCards(JSON.parse(storedObj).sort(sortGames('score', order)));
-
-                }else{
-                    printCards(JSON.parse(storedObj));
-                }
+                ascDesc();
             });
         }
 
@@ -260,8 +270,11 @@ $(document).ready(function(){
                 });
                 localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                                        
                 platformData = updateSearchData('platform');
+                console.log('complete');
                 platformChipsAutoComplete(platformData);
                 addingPrevChips();
+                sortByScore();
+                ascDesc();
             },
             minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
         });    
@@ -306,7 +319,9 @@ $(document).ready(function(){
             addingPrevChips(); 
             titleData = updateSearchData('title');             
             searchAutoComplete(titleData);                                                                    
-        }        
+        }   
+        sortByScore();
+        ascDesc();     
     });
 
     function addingPrevChips(){
@@ -360,7 +375,9 @@ $(document).ready(function(){
         localStorage.setItem('cardsJson', JSON.stringify(cardsToJson()));                 
         titleData = updateSearchData('title');
         searchAutoComplete(titleData); 
-    }    
+    }
+    sortByScore();
+    ascDesc();    
                   
     });
     
@@ -400,6 +417,9 @@ $(document).ready(function(){
             searchAutoComplete(titleData);
             $('.search').val(searchValue);         
         }
+
+        sortByScore();
+        ascDesc();
 
     });
 
