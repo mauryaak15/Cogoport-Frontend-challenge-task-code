@@ -105,7 +105,7 @@ $(document).ready(function(){
             $('.card-container').append("<div class='col s12 m6 l4 card-column'>"+
                 "<div class='card small sticky-action hoverable'>"+
                     "<div class='card-image waves-effect waves-block waves-light'>"+
-                        "<img class='activator' src='http://via.placeholder.com/350x180'>"+
+                        "<img class='activator' src='https://via.placeholder.com/350x180'>"+
                     "</div>"+
                     "<div class='card-content'>"+
                         "<span class='card-title activator grey-text text-darken-4', data-title='"+value.title.replace("'", '')+"' data-platform='"+value.platform.replace("'", '')+"' data-score='"+value.score+"' data-editor='"+value.editors_choice+"' data-genre='"+value.genre.replace("'", '')+"'>"+trimTitle1+"<i class='material-icons right'>more_vert</i></span>"+
@@ -222,7 +222,7 @@ $(document).ready(function(){
     //Ajax request to load game data
     $.ajax({
         method      : "GET",
-        url         : "http://starlord.hackerearth.com/gamesarena",
+        url         : "https://starlord.hackerearth.com/gamesarena",
         dataType    : "json",
         before      : function(){
 
