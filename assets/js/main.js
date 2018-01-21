@@ -222,7 +222,7 @@ $(document).ready(function(){
     //Ajax request to load game data
     $.ajax({
         method      : "GET",
-        url         : "https://starlord.hackerearth.com/gamesarena",
+        url         : "http://starlord.hackerearth.com/gamesarena",
         dataType    : "json",
         before      : function(){
 
